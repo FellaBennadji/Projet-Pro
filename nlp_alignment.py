@@ -90,7 +90,9 @@ def main():
             for e in edits:
                 e = classify(e)
                 if e.type is not None:
-                    print(e)
+                   # Create a string representation without o_start, o_end, c_start, and c_end
+                   edit_string = f"Orig: {e.o_str}, Cor: {e.c_str}, Type: {e.type}"
+                   print(edit_string)
 
 
             # Extraire les phrases alignées après la fusion
