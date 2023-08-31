@@ -14,6 +14,9 @@ This is the repository of my graduation project. This Python script is designed 
 - Errant library (for text alignment and error classification)
 - pandas library (for data handling)
 
+## Data Format
+The input data should be in TSV format, with each column representing a corrected sentence followed by one or more original sentences.
+
 ## Usage
 
 1. Ensure you have the required libraries installed (spaCy V.2, Errant, pandas).
