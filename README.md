@@ -27,6 +27,7 @@ You can run the script by executing the `main()` function in the provided Python
 
 ```bash
 python nlp_alignment.py
+```
 
 # Contact 
 For more information about the research methodology and for questions regarding collaboration, please contact: bennadjifella@yahoo.fr
