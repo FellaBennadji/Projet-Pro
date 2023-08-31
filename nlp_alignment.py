@@ -3,11 +3,10 @@ import spacy
 import pandas as pd
 
 def classify(edit):
-   # Nothing to nothing is a detected but not corrected edit
-    if edit.o_str != edit.c_str:
+    if edit.o_str != edit.c_str: # Check if the original and corrected text strings are different
       cat = get_two_sided_type(edit.o_toks, edit.c_toks)
       edit.type = cat
-      if cat is not None:  # Check if cat is not None (adjective-related error)
+      if cat is not None: 
             edit.type = cat
 
     return edit
@@ -73,14 +72,14 @@ def main():
     df = pd.read_csv(nom_fichier, sep='\t', header=None, encoding='windows-1252', dtype=str, na_values=['nan', 'NaN'])
     df.fillna('', inplace=True)  # Remplacer les valeurs NaN par des chaînes vides
 
-    # Créer une colonne avec les phrases correctes suivies des phrases originales, séparées par un saut de ligne
+    # Create a column with the correct sentences followed by the original sentences, separated by a line break
     aligned_sentences = []
 
     for col_index, col_name in enumerate(df.columns[2:], start=2):
         cor_text = df.iloc[0, col_index]  # Phrase corrigée dans la première ligne de la colonne
 
-        for orig_text in df.iloc[1:, col_index]:  # Phrases originales dans le reste des lignes de la colonne
-            # Vérifier si orig_text ou cor_text est vide et ignorer le traitement ultérieur si l'un d'eux est vide
+        for orig_text in df.iloc[1:, col_index]:  # Original sentences in the rest of the column rows
+            # Check if orig_text or cor_text is empty and ignore further processing if one of them is empty
             if not orig_text:
                 continue
             orig = annotator.parse(orig_text)
@@ -95,20 +94,20 @@ def main():
                    print(edit_string)
 
 
-            # Extraire les phrases alignées après la fusion
+            # Extract aligned sentences after merging
             orig_aligned = ' | '.join([word.text for word in orig])
             cor_aligned = ' | '.join([word.text for word in cor])
 
-            # Concaténer les phrases correctes suivies des phrases originales avec un saut de ligne entre elles
+            # Concatenate the correct sentences followed by the original sentences with a line break between them
             aligned_pair = f'Phrase correcte  : {cor_aligned}\n Phrase originale : {orig_aligned}'
 
-            # Ajouter cette paire de phrases à la liste aligned_sentences
+            # Add this pair of sentences to the aligned_sentences list
             aligned_sentences.append(aligned_pair)
 
-    # Créer un DataFrame avec une seule colonne contenant toutes les phrases alignées
+    # Create a DataFrame with a single column containing all aligned sentences
     df_result = pd.DataFrame(aligned_sentences, columns=['aligned_sentences'])
 
-    # Enregistrez le DataFrame dans un fichier TSV
+    # Save the DataFrame as a TSV file
     df_result.to_csv('aligned_sentences.tsv', sep='\t', header=False, index=False, encoding='utf-8')
 
 if __name__ == "__main__":
