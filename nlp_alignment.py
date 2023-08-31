@@ -76,7 +76,7 @@ def main():
     aligned_sentences = []
 
     for col_index, col_name in enumerate(df.columns[2:], start=2):
-        cor_text = df.iloc[0, col_index]  # Phrase corrigée dans la première ligne de la colonne
+        cor_text = df.iloc[0, col_index]  # Correct sentence in the first line of the column
 
         for orig_text in df.iloc[1:, col_index]:  # Original sentences in the rest of the column rows
             # Check if orig_text or cor_text is empty and ignore further processing if one of them is empty
